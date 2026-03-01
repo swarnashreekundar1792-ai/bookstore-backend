@@ -93,7 +93,6 @@ public class AuthService implements UserDetailsService {
         );
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String token = jwtUtil.generateToken(userDetails.getUsername());
 
         User user = userRepository.findByUsername(userDetails.getUsername())
                 .orElseThrow();
@@ -101,7 +100,7 @@ public class AuthService implements UserDetailsService {
                 .map(Role::getName)
                 .findFirst()
                 .orElse("ROLE_USER");
-
+        String token = jwtUtil.generateToken(userDetails.getUsername(), role);
         return new AuthResponse(token, userDetails.getUsername(), role);
     }
 }

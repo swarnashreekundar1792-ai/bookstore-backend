@@ -23,9 +23,9 @@ public class JwtUtil {
     }
 
     // Called after successful login — generates a new token for the user
-    public String generateToken(String username) {
+    public String generateToken(String username, String role) {
         return Jwts.builder()
-                .subject(username)
+                .subject(username).claim("role", role)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSigningKey())
